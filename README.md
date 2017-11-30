@@ -1,0 +1,2 @@
+# StopLosser
+stop loss calculator

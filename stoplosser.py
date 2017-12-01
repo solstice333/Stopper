@@ -3,6 +3,7 @@ import math
 import collections.abc as abc
 from collections import namedtuple
 import json
+import sys
 
 PercToPrice = namedtuple('PercToPrice', ['percent', 'price'])
 
@@ -91,16 +92,24 @@ def main():
    """
 
    parser = argparse.ArgumentParser(
-      description="stop loss calculator to calculate multiple stops")
+      formatter_class=argparse.RawDescriptionHelpFormatter,
+      description="stop loss calculator to calculate multiple stops. " +
+         "Examples:\n\n" +
+         "$ python {} -s 49.34 -p 55.30 -i 5.00 -n 3\n".format(sys.argv[0]) +
+         "$ python {} -s 49.34 -p 55.30 -n 3\n".format(sys.argv[0]) +
+         "$ python {} -s 49.34 -p 55.30 -i 0.5\n".format(sys.argv[0]) +
+         "$ python {} -s 49.34 -p 55.30\n".format(sys.argv[0]))
    parser.add_argument('-s', '--support', type=float, required=True, 
-      help="support price")
+      help="support price as a floating point value")
    parser.add_argument('-p', '--high-price', type=float, required=True,
-      help="price of the security")
+      help="price of the security as a floating point value")
    parser.add_argument('-i', '--incr-delta', type=float, default=1.0,
-      help="percentage between stops (defaults to 1.0 i.e. 1%%)")
+      help="percentage between stops as a floating point value " +
+         "(defaults to 1.0 i.e. 1%%)")
    parser.add_argument('-n', '--numstops', type=int, 
       default=StopLosser.MAXNUMSTOP, 
-      help="number of stops to be calculated starting from the support")
+      help="number of stops (as an int) to be calculated starting " +
+         "from the support")
 
    args = parser.parse_args()
 
